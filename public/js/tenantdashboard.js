@@ -1,114 +1,102 @@
-const api = window.api // Declare the api variable assuming it's available globally
+// Uses your GET /api/properties which returns an ARRAY.
+// Fields per your schema: title, address.line1/city/state/postcode, rent, bedrooms, bathrooms,
+// parking (boolean), images [String], status ('AVAILABLE'|'OCCUPIED'), description.
 
-const cName = document.getElementById("cName")
-const cEmail = document.getElementById("cEmail")
-const cDue = document.getElementById("cDue")
-const cPaid = document.getElementById("cPaid")
-const payBox = document.getElementById("payBox")
-const paidCheck = document.getElementById("paidCheck")
-const markPaidBtn = document.getElementById("markPaidBtn")
-const payMsg = document.getElementById("payMsg")
-const welcomeUser = document.getElementById("welcomeUser")
+(function () {
+  const API_BASE = '/api/properties';
+  const GRID = document.getElementById('properties');
+  const EMPTY = document.getElementById('emptyState');
+  const SEARCH = document.getElementById('searchBox');
+  const STATUS = document.getElementById('statusFilter');
+  const LOGOUT = document.getElementById('logoutBtn');
 
-// Logout
-document.getElementById("logoutBtn").addEventListener("click", () => {
-  localStorage.removeItem("token")
-  window.location.href = "/"
-})
+  // If you store JWT locally and protect the API, wire it here.
+  const tokenKey = 'authToken';
+  const token = localStorage.getItem(tokenKey);
 
-// Protect page (redirect if no token)
-if (!localStorage.getItem("token")) window.location.href = "/"
+  LOGOUT.addEventListener('click', () => {
+    localStorage.removeItem(tokenKey);
+    window.location.href = '/';
+  });
 
-// ✅ Fetch my customer record
-async function loadMyRecord() {
-  try {
-    const me = await api("/api/customers/me/record")
+  async function fetchAndRender() {
+    try {
+      const q = encodeURIComponent(SEARCH.value.trim());
+      const s = encodeURIComponent(STATUS.value || '');
+      const url = `${API_BASE}?${s ? `status=${s}&` : ''}${q ? `q=${q}` : ''}`;
 
-    // Fill profile
-    document.getElementById("cName").textContent = me.name || ""
-    document.getElementById("cEmail").textContent = me.email || ""
-    document.getElementById("cDue").textContent = (me.dueAmount || 0).toFixed(2)
+      const res = await fetch(url, {
+        headers: {
+          'Content-Type': 'application/json',
+          // 'Authorization': `Bearer ${token}` // uncomment if your API requires auth
+        }
+      });
+      if (!res.ok) throw new Error('Failed to load properties');
+      const items = await res.json(); // ARRAY per your controller
 
-    // Update pay amount display
-    const payAmountEl = document.getElementById("payAmount")
-    if (payAmountEl) {
-      payAmountEl.textContent = (me.dueAmount || 0).toFixed(2)
-    }
-
-    // Welcome text
-    const welcomeUserEl = document.getElementById("welcomeUser")
-    if (welcomeUserEl) {
-      welcomeUserEl.textContent = `Welcome back, ${me.name}! Here's your property overview.`
-    }
-
-    // Rent status with enhanced styling
-    const cPaidEl = document.getElementById("cPaid")
-    const payBoxEl = document.getElementById("payBox")
-    const paidStatusEl = document.getElementById("paidStatus")
-
-    if (me.paid) {
-      cPaidEl.textContent = "Paid"
-      cPaidEl.className = "status-badge status-paid"
-      if (payBoxEl) payBoxEl.classList.add("hidden")
-      if (paidStatusEl) paidStatusEl.classList.remove("hidden")
-    } else {
-      cPaidEl.textContent = "Pending"
-      cPaidEl.className = "status-badge status-pending"
-
-      if ((me.dueAmount || 0) > 0) {
-        if (payBoxEl) payBoxEl.classList.remove("hidden")
-        if (paidStatusEl) paidStatusEl.classList.add("hidden")
-      }
-    }
-  } catch (err) {
-    const payMsgEl = document.getElementById("payMsg")
-    if (payMsgEl) {
-      payMsgEl.textContent = err.message || "Could not load record"
+      render(items);
+    } catch (err) {
+      console.error(err);
+      GRID.innerHTML = '';
+      EMPTY.style.display = 'block';
+      EMPTY.textContent = 'Failed to load properties.';
     }
   }
-}
 
-// ✅ Mark rent as paid
-document.getElementById("markPaidBtn").addEventListener("click", async () => {
-  const paidCheckEl = document.getElementById("paidCheck")
-  const payMsgEl = document.getElementById("payMsg")
-
-  if (!paidCheckEl.checked) {
-    payMsgEl.textContent = "Please confirm that you have made the payment."
-    payMsgEl.style.color = "#dc2626"
-    return
-  }
-
-  payMsgEl.textContent = "Processing..."
-  payMsgEl.style.color = "#3b82f6"
-
-  try {
-    const updated = await api("/api/customers/me/mark-paid", "POST")
-
-    const cPaidEl = document.getElementById("cPaid")
-    const payBoxEl = document.getElementById("payBox")
-    const paidStatusEl = document.getElementById("paidStatus")
-
-    if (updated.paid) {
-      cPaidEl.textContent = "Paid"
-      cPaidEl.className = "status-badge status-paid"
-      if (payBoxEl) payBoxEl.classList.add("hidden")
-      if (paidStatusEl) paidStatusEl.classList.remove("hidden")
-
-      // Show success message
-      payMsgEl.textContent = "Payment confirmed successfully!"
-      payMsgEl.style.color = "#10b981"
-
-      // Clear message after 3 seconds
-      setTimeout(() => {
-        payMsgEl.textContent = ""
-      }, 3000)
+  function render(items) {
+    GRID.innerHTML = '';
+    if (!Array.isArray(items) || items.length === 0) {
+      EMPTY.style.display = 'block';
+      return;
     }
-  } catch (err) {
-    payMsgEl.textContent = err.message || "Failed to update payment status"
-    payMsgEl.style.color = "#dc2626"
-  }
-})
+    EMPTY.style.display = 'none';
 
-// Initial load
-loadMyRecord()
+    for (const p of items) {
+      const title = p.title || p?.address?.line1 || 'Property';
+      const addr = [
+        p?.address?.line1, p?.address?.city, p?.address?.state, p?.address?.postcode
+      ].filter(Boolean).join(', ');
+
+      const stats = [
+        (p.bedrooms ? `${p.bedrooms} bed` : ''),
+        (p.bathrooms ? `${p.bathrooms} bath` : ''),
+        (p.parking ? 'parking' : '')
+      ].filter(Boolean).join(' · ');
+
+      const price = (typeof p.rent === 'number' && !Number.isNaN(p.rent)) ? `$${p.rent}` : '';
+      const imgSrc = Array.isArray(p.images) && p.images.length ? p.images[0] : null;
+
+      const card = document.createElement('div');
+      card.className = 'card';
+      card.innerHTML = `
+        <div class="imgwrap">${imgSrc ? `<img src="${escapeHtml(imgSrc)}" alt="">` : `<span class="muted">No Image</span>`}</div>
+        <h3>${escapeHtml(title)}</h3>
+        <div class="muted">${escapeHtml(addr)}</div>
+        ${stats ? `<div class="muted" style="margin-top:6px;">${escapeHtml(stats)}</div>` : ''}
+        ${price ? `<div class="price">${escapeHtml(price)}${p.status ? ` · ${escapeHtml(p.status)}` : ''}</div>`
+                : (p.status ? `<div class="muted">${escapeHtml(p.status)}</div>` : '')}
+        ${p.description ? `<p style="margin-top:6px;">${escapeHtml(String(p.description)).slice(0,180)}${String(p.description).length>180?'…':''}</p>` : ''}
+      `;
+      GRID.appendChild(card);
+    }
+  }
+
+  function escapeHtml(str) {
+    return String(str).replace(/[&<>"']/g, s => (
+      { '&':'&amp;', '<':'&lt;', '>':'&gt;', '"':'&quot;', "'":'&#39;' }[s]
+    ));
+  }
+
+  // Load AVAILABLE by default
+  STATUS.value = 'AVAILABLE';
+  fetchAndRender();
+
+  SEARCH.addEventListener('input', debounce(fetchAndRender, 300));
+  STATUS.addEventListener('change', fetchAndRender);
+
+  function debounce(fn, ms) {
+    let t;
+    return (...args) => { clearTimeout(t); t = setTimeout(() => fn.apply(this, args), ms); };
+  }
+})();
+ 

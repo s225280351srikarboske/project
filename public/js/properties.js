@@ -25,21 +25,21 @@ async function api(url, method = 'GET', data) {
   return res.json();
 }
 
-/** --------------- Status mapping --------------- */
-const uiToSchemaStatus = (ui) => (ui === 'occupied' ? 'OCCUPIED' : 'AVAILABLE');
-// your UI uses occupied | vacant | pending. Both vacant and pending map to AVAILABLE.
-const schemaToUiStatus = (schema) => (schema === 'OCCUPIED' ? 'occupied' : 'vacant');
+  /** --------------- Status mapping --------------- */
+  const uiToSchemaStatus = (ui) => (ui === 'occupied' ? 'OCCUPIED' : 'AVAILABLE');
+  // your UI uses occupied | vacant | pending. Both vacant and pending map to AVAILABLE.
+  const schemaToUiStatus = (schema) => (schema === 'OCCUPIED' ? 'occupied' : 'vacant');
 
-/** ---------------- Load & render ---------------- */
-async function loadProperties() {
-  try {
-    const properties = await api('/api/properties');
-    renderProperties(properties || []);
-  } catch (error) {
-    console.error('Error loading properties:', error);
-    alert('Error loading properties: ' + error.message);
+  /** ---------------- Load & render ---------------- */
+  async function loadProperties() {
+    try {
+      const properties = await api('/api/properties');
+      renderProperties(properties || []);
+    } catch (error) {
+      console.error('Error loading properties:', error);
+      alert('Error loading properties: ' + error.message);
+    }
   }
-}
 
 function renderProperties(properties) {
   const tbody = document.getElementById('propertiesTableBody');

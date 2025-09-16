@@ -22,6 +22,7 @@ export const list = async (req, res) => {
   }
 };
 
+
 /** GET /api/properties/:id */
 export const getOne = async (req, res) => {
   try {

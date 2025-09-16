@@ -9,7 +9,7 @@ import connectDB from './src/config/db.js';
 import authRoutes from './src/routes/auth.js';
 import customerRoutes from './src/routes/customers.js';
 import propertyRoutes from './src/routes/propertyRoutes.js';
-import addtenantsRoutes from './src/routes/addTenantRoutes.js';
+import addTenantRoutes from './src/routes/addTenantRoutes.js';
 
 dotenv.config();
 
@@ -33,7 +33,7 @@ await connectDB();
 app.use('/api/auth', authRoutes);
 app.use('/api/customers', customerRoutes);
 app.use('/api/properties', propertyRoutes);
-app.use('/api/addtenants', addtenantsRoutes);
+app.use('/api/addtenants', addTenantRoutes);
 
 // default pages (static HTML)
 app.get('/', (req, res) => res.sendFile(path.join(__dirname, 'public', 'index.html')));
@@ -42,7 +42,10 @@ app.get('/customer', (req, res) => res.sendFile(path.join(__dirname, 'public', '
 app.get('/properties', (req, res) => res.sendFile(path.join(__dirname, 'public', 'properties.html')));
 app.get('/tenants', (req, res) => res.sendFile(path.join(__dirname, 'public', 'tenants.html')));
 app.get('/addtenant', (req, res) => res.sendFile(path.join(__dirname, 'public', 'addtenant.html')));
-app.get('/chat', (req, res) => res.sendFile(path.join(__dirname, 'public', 'chat.html')));
+app.get('/tenant-dashboard', (_req, res) =>
+  res.sendFile(path.join(__dirname, 'public', 'tenantdashboard.html'))
+);
+
 
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => console.log(`Server running at http://localhost:${PORT}`));

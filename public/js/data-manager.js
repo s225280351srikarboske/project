@@ -81,29 +81,6 @@ class DataManager {
     return this.properties.find(p => p.id === propertyId);
   }
 
-  // Tenants Management
-  loadTenants() {
-    const tenants = localStorage.getItem('tenants');
-    if (!tenants) {
-      const defaultTenants = [
-        {
-          id: 'tenant-1',
-          name: 'John Doe',
-          email: 'john@email.com',
-          phone: '+1-555-0123',
-          propertyId: 'prop-1',
-          leaseStart: '2024-01-01',
-          leaseEnd: '2024-12-31',
-          rentAmount: 1200,
-          status: 'Active',
-          createdAt: new Date().toISOString()
-        }
-      ];
-      localStorage.setItem('tenants', JSON.stringify(defaultTenants));
-      return defaultTenants;
-    }
-    return JSON.parse(tenants);
-  }
 
   saveTenants() {
     localStorage.setItem('tenants', JSON.stringify(this.tenants));
