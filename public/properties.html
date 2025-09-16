@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Property Management System - Properties</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <link href="/css/admin.css" rel="stylesheet">
+</head>
+<body>
+    <div class="sidebar">
+        <div class="sidebar-header">
+            <div class="logo">
+                <i class="fas fa-building"></i>
+                <span>PropertyHub</span>
+            </div>
+            <div class="subtitle">Management System</div>
+        </div>
+        <nav class="sidebar-nav">
+            <div class="nav-section">
+                <div class="nav-label">MANAGEMENT</div>
+                <a href="/admin" class="nav-item">
+                    <i class="fas fa-chart-pie"></i>
+                    <span>Dashboard</span>
+                </a>
+                <a href="/properties" class="nav-item active">
+                    <i class="fas fa-home"></i>
+                    <span>Properties</span>
+                </a>
+                <a href="./addtenant.html" class="nav-item">
+                    <i class="fas fa-users"></i>
+                    <span>Tenants</span>
+                </a>
+                <a href="./chat" class="nav-item">
+                    <i class="fas fa-envelope"></i>
+                    <span>Messages</span>
+                </a>
+                <div class="sign-out">
+                    <a href="./logout" class="nav-item">
+                        <i class="fas fa-sign-out-alt"></i>
+                        <span>Sign Out</span>
+                    </a>
+                </div>
+            </div>
+        </nav>
+    </div>
+
+    <div class="main-content">
+        <header class="header">
+            <div class="header-left">
+                <h1>Property Management</h1>
+                <p>Manage your properties</p>
+            </div>
+            <div class="header-right">
+                <a href="/profile" class="user-profile">
+                    <span>PK</span>
+                </a>
+            </div>
+        </header>
+
+        <div class="properties-table-section">
+            <div class="section-header">
+                <div>
+                    <h3>All Properties</h3>
+                    <p>Manage your property portfolio</p>
+                </div>
+                <button class="add-btn" id="addNewPropertyBtn">
+                    <i class="fas fa-plus"></i>
+                    Add Property
+                </button>
+            </div>
+            <div class="table-container">
+                <table class="properties-table">
+                    <thead>
+                        <tr>
+                            <th>Image</th>
+                            <th>Title</th>
+                            <th>Address</th>
+                            <th>Price</th>
+                            <th>Status</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody id="propertiesTableBody">
+                        <!-- Properties will be loaded dynamically -->
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+    <!-- Add Property Modal -->
+    <div class="modal" id="propertyModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 id="propertyModalTitle">Add New Property</h3>
+                <button class="close-btn">&times;</button>
+            </div>
+            <form id="propertyForm">
+                <input type="hidden" id="propertyId">
+                <div class="form-group">
+                    <label for="propertyTitle">Property Title</label>
+                    <input type="text" id="propertyTitle" class="form-control" required>
+                </div>
+                <div class="form-group">
+                    <label for="propertyAddress">Address</label>
+                    <input type="text" id="propertyAddress" class="form-control" required>
+                </div>
+                <div class="form-group">
+                    <label for="propertyPrice">Monthly Rent ($)</label>
+                    <input type="number" id="propertyPrice" class="form-control" required>
+                </div>
+                <div class="form-group">
+                    <label for="propertyStatus">Status</label>
+                    <select id="propertyStatus" class="form-control" required>
+                        <option value="occupied">Occupied</option>
+                        <option value="vacant">Vacant</option>
+                        <option value="pending">Pending</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="propertyImage">Property Image URL</label>
+                    <input type="text" id="propertyImage" class="form-control" placeholder="https://...">
+                </div>
+                <div class="form-actions">
+                    <button type="button" class="btn btn-secondary close-btn">Cancel</button>
+                    <button type="submit" class="btn btn-primary">Save Property</button>
+                </div>
+            </form>
+        </div>
+    </div>
+    <script type="module" src="/js/common.js"></script>
+    <script src="/js/properties.js"></script>
+</body>
+</html>

@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Property Management System - Authentication</title>
+    <link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+    <div class="container">
+        <!-- Header -->
+        <div class="header">
+            <div class="logo">
+                <div class="logo-icon">🏢</div>
+            </div>
+            <h1 class="title">Property Management System</h1>
+            <p class="subtitle">Manage your rental business with ease</p>
+        </div>
+
+        <!-- Tabs -->
+        <div class="tabs">
+            <div class="tab-list">
+                <button class="tab-trigger active" data-tab="login">
+                    Login
+                </button>
+                <button class="tab-trigger" data-tab="signup">
+                    Sign Up
+                </button>
+            </div>
+
+            <!-- Login Tab -->
+            <div class="tab-content active login-bg" id="login-tab">
+                <div class="card">
+                    <div class="card-header">
+                        <h2 class="card-title">Sign In</h2>
+                        <p class="card-description">Enter your credentials to access your account</p>
+                    </div>
+                    <div class="card-content">
+                        <form class="form" id="loginForm">
+                            <div class="form-group">
+                                <label class="label" for="login-email">Email</label>
+                                <div class="input-wrapper">
+                                    <span class="input-icon">📧</span>
+                                    <input 
+                                        class="input" 
+                                        id="login-email" 
+                                        name="email" 
+                                        type="email" 
+                                        placeholder="Enter your email" 
+                                        required
+                                    >
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label class="label" for="login-password">Password</label>
+                                <div class="input-wrapper">
+                                    <span class="input-icon">🔒</span>
+                                    <input 
+                                        class="input password-input" 
+                                        id="login-password" 
+                                        name="password" 
+                                        type="password" 
+                                        placeholder="Enter your password" 
+                                        required
+                                    >
+                                    <button type="button" class="password-toggle" data-target="login-password">
+                                        👁️
+                                    </button>
+                                </div>
+                            </div>
+
+                            <div id="login-message" class="hidden"></div>
+
+                            <div class="button-group">
+                                <button type="submit" class="button button-primary" id="login-btn">
+                                    Sign In
+                                </button>
+                                <div class="text-center">
+                                    <button type="button" class="button-ghost" data-switch="signup">
+                                        Don't have an account? Create one
+                                    </button>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Signup Tab -->
+            <div class="tab-content signup-bg" id="signup-tab">
+                <div class="card">
+                    <div class="card-header">
+                        <h2 class="card-title">Create Account</h2>
+                        <p class="card-description">Get started with your rental management system</p>
+                    </div>
+                    <div class="card-content">
+                        <form class="form" id="signupForm">
+                            <div class="form-group">
+                                <label class="label" for="signup-name">Full Name</label>
+                                <div class="input-wrapper">
+                                    <span class="input-icon">👤</span>
+                                    <input 
+                                        class="input" 
+                                        id="signup-name" 
+                                        name="name" 
+                                        type="text" 
+                                        placeholder="Enter your full name" 
+                                        required
+                                    >
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label class="label" for="signup-email">Email</label>
+                                <div class="input-wrapper">
+                                    <span class="input-icon">📧</span>
+                                    <input 
+                                        class="input" 
+                                        id="signup-email" 
+                                        name="email" 
+                                        type="email" 
+                                        placeholder="Enter your email" 
+                                        required
+                                    >
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label class="label" for="signup-password">Password</label>
+                                <div class="input-wrapper">
+                                    <span class="input-icon">🔒</span>
+                                    <input 
+                                        class="input password-input" 
+                                        id="signup-password" 
+                                        name="password" 
+                                        type="password" 
+                                        placeholder="Create a password" 
+                                        required
+                                    >
+                                    <button type="button" class="password-toggle" data-target="signup-password">
+                                        👁️
+                                    </button>
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label class="label" for="signup-role">Role</label>
+                                <div class="input-wrapper">
+                                    <select class="select" id="signup-role" name="role">
+                                        <option value="Tenant">Tenant</option>
+                                        <option value="Admin">Admin</option>
+                                    </select>
+                                </div>
+                            </div>
+
+                            <!-- Admin ID field (hidden by default) -->
+                            <div class="form-group hidden" id="admin-id-group">
+                                <label class="label" for="admin-id">Admin ID</label>
+                                <div class="input-wrapper">
+                                    <span class="input-icon">🔑</span>
+                                    <input 
+                                        class="input" 
+                                        id="admin-id" 
+                                        name="adminId" 
+                                        type="text" 
+                                        placeholder="Enter admin ID" 
+                                    >
+                                </div>
+                                <small class="help-text">Admin ID is required for admin registration</small>
+                            </div>
+
+                            <div id="signup-message" class="hidden"></div>
+
+                            <div class="button-group">
+                                <button type="submit" class="button button-accent" id="signup-btn">
+                                    Create Account
+                                </button>
+                                <div class="text-center">
+                                    <button type="button" class="button-ghost" data-switch="login">
+                                        Already have an account? Sign in
+                                    </button>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="/js/script.js"></script>
+</body>
+</html>

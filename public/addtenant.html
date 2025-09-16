@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Property Management System - Tenants</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <link href="/css/admin.css" rel="stylesheet">
+</head>
+<body>
+    <div class="sidebar">
+        <div class="sidebar-header">
+            <div class="logo">
+                <i class="fas fa-building"></i>
+                <span>PropertyHub</span>
+            </div>
+            <div class="subtitle">Management System</div>
+        </div>
+        
+        <nav class="sidebar-nav">
+            <div class="nav-section">
+                <div class="nav-label">MANAGEMENT</div>
+                <a href="/admin" class="nav-item">
+                    <i class="fas fa-chart-pie"></i>
+                    <span>Dashboard</span>
+                </a>
+                <a href="./properties" class="nav-item">
+                    <i class="fas fa-home"></i>
+                    <span>Properties</span>
+                </a>
+                <a href="./addtenant.html" class="nav-item">
+                    <i class="fas fa-users"></i>
+                    <span>Tenants</span>
+                </a>
+                <a href="/chat" class="nav-item">
+                    <i class="fas fa-envelope"></i>
+                    <span>Messages</span>
+                </a>
+                <div class="sign-out">
+                    <a href="/logout" class="nav-item">
+                        <i class="fas fa-sign-out-alt"></i>
+                        <span>Sign Out</span>
+                    </a>
+                </div>
+            </div>
+        </nav>
+    </div>
+
+    <div class="main-content">
+        <header class="header">
+            <div class="header-left">
+                <h1>Tenant Management</h1>
+                <p>Manage your tenants</p>
+            </div>
+            <div class="header-right">
+                <a href="/profile" class="user-profile">
+                    <span>PK</span>
+                </a>
+            </div>
+        </header>
+
+        <div class="tenants-table-section">
+            <div class="section-header">
+                <div>
+                    <h3>All Tenants</h3>
+                    <p>Manage your tenants</p>
+                </div>
+                <button class="add-btn" id="addNewTenantBtn">
+                    <i class="fas fa-plus"></i>
+                    Add Tenant
+                </button>
+            </div>
+            <div class="table-container">
+                <table class="tenants-table">
+                    <thead>
+                        <tr>
+                            <th>Name</th>
+                            <th>Email</th>
+                            <th>Phone</th>
+                            <th>Property</th>
+                            <th>Rent</th>
+                            <th>Status</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody id="tenantsTableBody">
+                        <!-- Tenants will be loaded dynamically -->
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <!-- Add Tenant Modal -->
+    <div class="modal" id="tenantModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 id="tenantModalTitle">Add New Tenant</h3>
+                <button class="close-btn">&times;</button>
+            </div>
+            <form id="tenantForm">
+                <input type="hidden" id="tenantId">
+                <div class="form-group">
+                    <label for="tenantName">Full Name</label>
+                    <input type="text" id="tenantName" class="form-control" required>
+                </div>
+                <div class="form-group">
+                    <label for="tenantEmail">Email</label>
+                    <input type="email" id="tenantEmail" class="form-control" required>
+                </div>
+                <div class="form-group">
+                    <label for="tenantPhone">Phone Number</label>
+                    <input type="tel" id="tenantPhone" class="form-control" required>
+                </div>
+                <div class="form-group">
+                    <label for="tenantProperty">Assigned Property</label>
+                    <select id="tenantProperty" class="form-control" required>
+                        <option value="">Select a property</option>
+                        <!-- Options will be populated dynamically -->
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="tenantRent">Monthly Rent ($)</label>
+                    <input type="number" id="tenantRent" class="form-control" required>
+                </div>
+                <div class="form-group">
+                    <label for="tenantStatus">Payment Status</label>
+                    <select id="tenantStatus" class="form-control" required>
+                        <option value="paid">Paid</option>
+                        <option value="overdue">Overdue</option>
+                    </select>
+                </div>
+                <div class="form-actions">
+                    <button type="button" class="btn btn-secondary close-btn">Cancel</button>
+                    <button type="submit" class="btn btn-primary">Save Tenant</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <script src="./js/addtenant.js"></script>
+</body>
+</html>

@@ -1,0 +1,302 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <title>Tenant Portal</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <link rel="stylesheet" href="/css/tenant-dashboard.css" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+</head>
+<body class="tenant-dashboard">
+
+  <!-- Sidebar -->
+  <aside class="sidebar">
+    <div class="sidebar-header">
+      <div class="logo-container">
+        <img src="./images/property-logo.png" alt="PropertyHub" class="logo-img">
+        <div class="logo-text">
+          <h2>PropertyHub</h2>
+          <span>Tenant Portal</span>
+        </div>
+      </div>
+    </div>
+    
+    <nav class="sidebar-nav">
+      <a href="#" class="nav-item active">
+        <i class="fas fa-home"></i>
+        <span>Dashboard</span>
+      </a>
+      <a href="#" class="nav-item">
+        <i class="fas fa-credit-card"></i>
+        <span>Payments</span>
+      </a>
+      <a href="#" class="nav-item">
+        <i class="fas fa-bell"></i>
+        <span>Notifications</span>
+        <span class="notification-badge">3</span>
+      </a>
+      <a href="#" class="nav-item">
+        <i class="fas fa-tools"></i>
+        <span>Maintenance</span>
+      </a>
+      <a href="#" class="nav-item">
+        <i class="fas fa-file-contract"></i>
+        <span>Lease Details</span>
+      </a>
+      <a href="#" class="nav-item">
+        <i class="fas fa-cog"></i>
+        <span>Settings</span>
+      </a>
+    </nav>
+    
+    <div class="sidebar-footer">
+      <button id="logoutBtn" class="logout-btn">
+        <i class="fas fa-sign-out-alt"></i>
+        <span>Sign out</span>
+      </button>
+    </div>
+  </aside>
+
+  <!-- Main Content -->
+  <main class="main-content">
+    <!-- Header -->
+    <header class="main-header">
+      <div class="header-content">
+        <div class="header-left">
+          <h1>Tenant Dashboard</h1>
+          <p id="welcomeUser">Welcome back! Here's your property overview.</p>
+        </div>
+        <div class="header-right">
+          <button class="quick-action-btn">
+            <i class="fas fa-plus"></i>
+            Quick Actions
+          </button>
+        </div>
+      </div>
+    </header>
+
+    <!-- Dashboard Content -->
+    <div class="dashboard-content">
+      <!-- Stats Cards -->
+      <div class="stats-grid">
+        <div class="stat-card rent-status">
+          <div class="stat-header">
+            <h3>Rent Status</h3>
+            <i class="fas fa-home"></i>
+          </div>
+          <div class="stat-content">
+            <div class="stat-value">
+              <span class="amount">$<span id="cDue">0</span></span>
+              <span id="cPaid" class="status-badge">Loading...</span>
+            </div>
+            <p class="stat-label">Monthly Rent</p>
+          </div>
+        </div>
+
+        <div class="stat-card">
+          <div class="stat-header">
+            <h3>Next Payment</h3>
+            <i class="fas fa-calendar"></i>
+          </div>
+          <div class="stat-content">
+            <div class="stat-value">
+              <span class="date">Dec 1, 2024</span>
+            </div>
+            <p class="stat-label">Due Date</p>
+          </div>
+        </div>
+
+        <div class="stat-card">
+          <div class="stat-header">
+            <h3>Lease Status</h3>
+            <i class="fas fa-file-contract"></i>
+          </div>
+          <div class="stat-content">
+            <div class="stat-value">
+              <span class="status active">Active</span>
+            </div>
+            <p class="stat-label">Until Dec 2025</p>
+          </div>
+        </div>
+
+        <div class="stat-card">
+          <div class="stat-header">
+            <h3>Maintenance</h3>
+            <i class="fas fa-tools"></i>
+          </div>
+          <div class="stat-content">
+            <div class="stat-value">
+              <span class="count">2</span>
+            </div>
+            <p class="stat-label">Open Requests</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Main Grid -->
+      <div class="main-grid">
+        <!-- Profile Card -->
+        <div class="card profile-card">
+          <div class="card-header">
+            <h2>My Profile</h2>
+            <button class="edit-btn">
+              <i class="fas fa-edit"></i>
+            </button>
+          </div>
+          <div class="card-content">
+            <div class="profile-info">
+              <div class="profile-avatar">
+                <i class="fas fa-user"></i>
+              </div>
+              <div class="profile-details">
+                <h3 id="cName">Loading...</h3>
+                <p id="cEmail">Loading...</p>
+                <span class="role-badge">Tenant</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Payment Section -->
+        <div class="card payment-card">
+          <div class="card-header">
+            <h2>Payment Center</h2>
+            <i class="fas fa-credit-card"></i>
+          </div>
+          <div class="card-content">
+            <div id="payBox" class="payment-box hidden">
+              <div class="payment-info">
+                <p>Outstanding Amount: <strong>$<span id="payAmount">0</span></strong></p>
+              </div>
+              <div class="payment-actions">
+                <label class="checkbox-container">
+                  <input type="checkbox" id="paidCheck">
+                  <span class="checkmark"></span>
+                  I confirm I have made the payment
+                </label>
+                <button id="markPaidBtn" class="btn btn-primary">
+                  <i class="fas fa-check"></i>
+                  Mark as Paid
+                </button>
+              </div>
+              <p id="payMsg" class="payment-message"></p>
+            </div>
+            <div id="paidStatus" class="paid-status hidden">
+              <i class="fas fa-check-circle"></i>
+              <p>Your rent is up to date!</p>
+            </div>
+          </div>
+        </div>
+
+        <!-- Recent Activity -->
+        <div class="card activity-card">
+          <div class="card-header">
+            <h2>Recent Activity</h2>
+            <a href="#" class="view-all">View all</a>
+          </div>
+          <div class="card-content">
+            <div class="activity-list">
+              <div class="activity-item">
+                <div class="activity-icon payment">
+                  <i class="fas fa-credit-card"></i>
+                </div>
+                <div class="activity-content">
+                  <p>Payment received</p>
+                  <span class="activity-time">2 hours ago</span>
+                </div>
+              </div>
+              <div class="activity-item">
+                <div class="activity-icon maintenance">
+                  <i class="fas fa-tools"></i>
+                </div>
+                <div class="activity-content">
+                  <p>Maintenance request submitted</p>
+                  <span class="activity-time">1 day ago</span>
+                </div>
+              </div>
+              <div class="activity-item">
+                <div class="activity-icon notification">
+                  <i class="fas fa-bell"></i>
+                </div>
+                <div class="activity-content">
+                  <p>New announcement from management</p>
+                  <span class="activity-time">3 days ago</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Notifications -->
+        <div class="card notifications-card">
+          <div class="card-header">
+            <h2>Notifications</h2>
+            <span class="notification-count">3</span>
+          </div>
+          <div class="card-content">
+            <div id="notifications" class="notifications-list">
+              <div class="notification-item unread">
+                <div class="notification-content">
+                  <h4>Rent Reminder</h4>
+                  <p>Your rent payment is due in 3 days</p>
+                  <span class="notification-time">Today</span>
+                </div>
+              </div>
+              <div class="notification-item">
+                <div class="notification-content">
+                  <h4>Maintenance Update</h4>
+                  <p>Your AC repair request has been scheduled</p>
+                  <span class="notification-time">Yesterday</span>
+                </div>
+              </div>
+              <div class="notification-item">
+                <div class="notification-content">
+                  <h4>Community Notice</h4>
+                  <p>Pool maintenance scheduled for this weekend</p>
+                  <span class="notification-time">2 days ago</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Quick Actions -->
+        <div class="card quick-actions-card">
+          <div class="card-header">
+            <h2>Quick Actions</h2>
+          </div>
+          <div class="card-content">
+            <div class="quick-actions-grid">
+              <button class="quick-action-item">
+                <i class="fas fa-credit-card"></i>
+                <span>Pay Rent</span>
+              </button>
+              <button class="quick-action-item">
+                <i class="fas fa-tools"></i>
+                <span>Request Maintenance</span>
+              </button>
+              <button class="quick-action-item">
+                <i class="fas fa-envelope"></i>
+                <span>Contact Manager</span>
+              </button>
+              <button class="quick-action-item">
+                <i class="fas fa-file-download"></i>
+                <span>Download Lease</span>
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="footer">
+      <p>&copy; 2025 Property Management System. All rights reserved.</p>
+    </footer>
+  </main>
+
+  <script src="./js/common.js"></script>
+  <script src="./js/tenant.js"></script>
+</body>
+</html>

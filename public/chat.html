@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Property Management System - Messages</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <link href="/css/admin.css" rel="stylesheet">
+</head>
+<body>
+    <div class="sidebar">
+        <div class="sidebar-header">
+            <div class="logo">
+                <i class="fas fa-building"></i>
+                <span>PropertyHub</span>
+            </div>
+            <div class="subtitle">Management System</div>
+        </div>
+        
+        <nav class="sidebar-nav">
+            <div class="nav-section">
+                <div class="nav-label">MANAGEMENT</div>
+                <a href="/admin" class="nav-item">
+                    <i class="fas fa-chart-pie"></i>
+                    <span>Dashboard</span>
+                </a>
+                <a href="/properties" class="nav-item">
+                    <i class="fas fa-home"></i>
+                    <span>Properties</span>
+                </a>
+                <a href="./addtenant.html" class="nav-item">
+                    <i class="fas fa-users"></i>
+                    <span>Tenants</span>
+                </a>
+                <a href="/chat" class="nav-item active">
+                    <i class="fas fa-envelope"></i>
+                    <span>Messages</span>
+                </a>
+                <div class="sign-out">
+                    <a href="/logout" class="nav-item">
+                        <i class="fas fa-sign-out-alt"></i>
+                        <span>Sign Out</span>
+                    </a>
+                </div>
+            </div>
+        </nav>
+    </div>
+
+    <div class="main-content">
+        <header class="header">
+            <div class="header-left">
+                <h1>Message Center</h1>
+                <p>Communicate with your tenants</p>
+            </div>
+            <div class="header-right">
+                <a href="/profile" class="user-profile">
+                    <span>PK</span>
+                </a>
+            </div>
+        </header>
+
+        <div class="chat-section">
+            <div class="section-header">
+                <h3>Messages</h3>
+                <p>Communicate with your tenants</p>
+            </div>
+            <div class="chat-container">
+                <div class="chat-header">
+                    <h4>Tenant Communications</h4>
+                </div>
+                <div class="chat-messages" id="chatMessages">
+                    <div class="message received">
+                        <p>Hi, I wanted to ask about the maintenance request I submitted last week.</p>
+                        <span class="message-time">10:30 AM</span>
+                    </div>
+                    <div class="message sent">
+                        <p>Hello Mike, we've scheduled it for this Thursday.</p>
+                        <span class="message-time">10:32 AM</span>
+                    </div>
+                    <div class="message received">
+                        <p>Great, thank you for the update!</p>
+                        <span class="message-time">10:33 AM</span>
+                    </div>
+                </div>
+                <div class="chat-input">
+                    <input type="text" id="messageInput" placeholder="Type your message...">
+                    <button id="sendMessageBtn">Send</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="/js/common.js"></script>
+    <script src="/js/chat.js"></script>
+</body>
+</html>

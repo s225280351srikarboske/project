@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Property Management System</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="/css/admin.css">
+</head>
+<body>
+    <div class="sidebar">
+        <div class="sidebar-header">
+            <div class="logo">
+                <i class="fas fa-building"></i>
+                <span>Property </span>
+            </div>
+            <div class="subtitle">Management System</div>
+        </div>
+        
+        <nav class="sidebar-nav">
+            <div class="nav-section">
+                <div class="nav-label">MANAGEMENT</div>
+                <a href="admin.html" class="nav-item active">
+                    <i class="fas fa-chart-pie"></i>
+                    <span>Dashboard</span>
+                </a>
+                <a href="/properties.html" class="nav-item">
+                    <i class="fas fa-home"></i>
+                    <span>Properties</span>
+                </a>
+                <a href="./addtenant.html" class="nav-item">
+                    <i class="fas fa-users"></i>
+                    <span>Tenants</span>
+                </a>
+                <a href="/chat.html" class="nav-item">
+                    <i class="fas fa-envelope"></i>
+                    <span>Messages</span>
+                </a>
+                <div class="sign-out">
+                    <a href="index.html" class="nav-item">
+                        <i class="fas fa-sign-out-alt"></i>
+                        <span>Sign Out</span>
+                    </a>
+                </div>
+            </div>
+        </nav>
+    </div>
+
+    <!-- Main Content -->
+    <div class="main-content">
+        <!-- Header -->
+        <header class="header">
+            <div class="header-left">
+                <p>Welcome back! Here's your property overview.</p>
+            </div>
+            <div class="header-right">
+                <a href="profile.html" class="user-profile">
+                    <span>PK</span>
+                </a>
+            </div>
+        </header>
+
+        <!-- Dashboard Content -->
+        <div class="dashboard-content">
+            <!-- Metrics Cards -->
+            <div class="metrics-grid">
+                <div class="metric-card">
+                    <div class="metric-header">
+                        <span class="metric-title">Total Properties</span>
+                        <i class="fas fa-info-circle metric-info"></i>
+                    </div>
+                    <div class="metric-value">11</div>
+                </div>
+                
+                <div class="metric-card">
+                    <div class="metric-header">
+                        <span class="metric-title">Active Tenants</span>
+                        <i class="fas fa-info-circle metric-info"></i>
+                    </div>
+                    <div class="metric-value">16</div>
+                </div>
+                
+                <div class="metric-card">
+                    <div class="metric-header">
+                        <span class="metric-title">This Month Revenue</span>
+                        <i class="fas fa-dollar-sign metric-icon"></i>
+                    </div>
+                    <div class="metric-value">$12,000</div>
+                </div>
+                
+                <div class="metric-card">
+                    <div class="metric-header">
+                        <span class="metric-title">Outstanding Dues</span>
+                        <i class="fas fa-exclamation-triangle metric-icon warning"></i>
+                    </div>
+                    <div class="metric-value">$4,450</div>
+                </div>
+            </div>
+
+            <!-- Quick Actions -->
+            <div class="quick-actions-section">
+                <h3>Quick Actions</h3>
+                <p>Frequently used management tools</p>
+                <div class="actions-grid">
+                    <button class="action-btn" onclick="showAddPropertyModal()">
+                        <i class="fas fa-plus"></i>
+                        <span>Add Property</span>
+                    </button>
+                    <button class="action-btn" onclick="showAddTenantModal()">
+                        <i class="fas fa-user-plus"></i>
+                        <span>Add Tenant</span>
+                    </button>
+                </div>
+            </div>
+
+            <!-- Properties Table Section -->
+            <div class="properties-table-section">
+                <div class="section-header">
+                    <h3>Properties Overview</h3>
+                    <p>Showing first 5 properties</p>
+                </div>
+                <div class="table-container">
+                    <table class="properties-table">
+                        <thead>
+                            <tr>
+                                <th>Image</th>
+                                <th>Title</th>
+                                <th>Price</th>
+                                <th>Status</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td><img src="https://via.placeholder.com/60x40" alt="Property" class="property-image"></td>
+                                <td class="property-title">Sunset Apartments #205</td>
+                                <td class="property-price">$1,200</td>
+                                <td><span class="status-badge occupied">Occupied</span></td>
+                            </tr>
+                            <tr>
+                                <td><img src="https://via.placeholder.com/60x40" alt="Property" class="property-image"></td>
+                                <td class="property-title">Oak Street #12</td>
+                                <td class="property-price">$950</td>
+                                <td><span class="status-badge vacant">Vacant</span></td>
+                            </tr>
+                            <tr>
+                                <td><img src="https://via.placeholder.com/60x40" alt="Property" class="property-image"></td>
+                                <td class="property-title">Pine View #8</td>
+                                <td class="property-price">$1,100</td>
+                                <td><span class="status-badge pending">Pending</span></td>
+                            </tr>
+                            <tr>
+                                <td><img src="https://via.placeholder.com/60x40" alt="Property" class="property-image"></td>
+                                <td class="property-title">Maple Court #15</td>
+                                <td class="property-price">$1,350</td>
+                                <td><span class="status-badge occupied">Occupied</span></td>
+                            </tr>
+                            <tr>
+                                <td><img src="https://via.placeholder.com/60x40" alt="Property" class="property-image"></td>
+                                <td class="property-title">Riverfront Villa</td>
+                                <td class="property-price">$2,200</td>
+                                <td><span class="status-badge vacant">Vacant</span></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script type="module" src="/js/common.js"></script>
+    <script src="./js/admin.js"></script>
+</body>
+</html>
