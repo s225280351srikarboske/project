@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Property Details & Chat</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <style>
+    body { font-family: system-ui, Arial, sans-serif; margin:0; background:#f7f7f7; }
+    header { background:#111827; color:#fff; padding:14px 20px; display:flex; align-items:center; gap:12px; }
+    header a { color:#fff; text-decoration:none; background:#374151; padding:6px 10px; border-radius:8px; }
+    main { max-width:1100px; margin:20px auto; padding:0 16px; display:grid; grid-template-columns: 1.4fr .9fr; gap:18px; }
+    .card { background:#fff; border-radius:14px; padding:14px; box-shadow:0 1px 6px rgba(0,0,0,.06); }
+    .muted { color:#6b7280; }
+    .gallery { display:grid; grid-template-columns: repeat(auto-fill, minmax(180px, 1fr)); gap:10px; }
+    .gallery img { width:100%; aspect-ratio:4/3; object-fit:cover; border-radius:10px; }
+    .chat { display:flex; flex-direction:column; height:70vh; }
+    .chatlog { flex:1; overflow:auto; padding:8px; background:#f9fafb; border-radius:10px; border:1px solid #e5e7eb; }
+    .bubble { max-width:75%; margin:6px 0; padding:8px 10px; border-radius:12px; }
+    .tenant { background:#e0ecff; align-self:flex-end; }
+    .admin { background:#e5e7eb; align-self:flex-start; }
+    .composer { display:flex; gap:8px; margin-top:8px; }
+    .composer input { flex:1; padding:10px; border:1px solid #ddd; border-radius:8px; }
+    .composer button { padding:10px 12px; border:0; border-radius:8px; background:#2563eb; color:#fff; cursor:pointer; }
+    @media (max-width: 900px){ main{ grid-template-columns: 1fr; } .chat{ height:auto; } }
+  </style>
+</head>
+<body>
+<header>
+  <div class="brand">Tenant Dashboard</div>
+  <div style="display:flex; gap:8px; align-items:center;">
+    <a class="btn" style="background:#10b981;color:#fff;text-decoration:none;border-radius:8px;padding:8px 12px"
+       href="/tenant-issues">Report Issue</a>
+    <button class="btn btn-logout" id="logoutBtn">Logout</button>
+  </div>
+</header>
+
+<main>
+  <section class="card" id="details">
+    <h2 id="title">Property</h2>
+    <div class="muted" id="addr"></div>
+    <div style="margin-top:8px;" id="stats"></div>
+    <div style="margin:10px 0;font-weight:700;" id="price"></div>
+    <p id="desc" style="white-space:pre-wrap;"></p>
+    <div class="gallery" id="gallery"></div>
+  </section>
+
+  <section class="card chat">
+    <div class="chatlog" id="chatlog"></div>
+    <div class="composer">
+      <input id="msg" placeholder="Type a message to admin..." />
+      <button id="sendBtn">Send</button>
+    </div>
+  </section>
+</main>
+
+<script src="/js/tenant-property.js" defer></script>
+</body>
+</html>

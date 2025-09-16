@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Report an Issue</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <style>
+    body { font-family: system-ui, Arial, sans-serif; margin:0; background:#f7f7f7; }
+    header { background:#111827; color:#fff; padding:14px 20px; display:flex; align-items:center; gap:12px; }
+    header a { color:#fff; text-decoration:none; background:#374151; padding:6px 10px; border-radius:8px; }
+    main { max-width:900px; margin:20px auto; padding:0 16px; display:grid; gap:18px; }
+    .card { background:#fff; border-radius:14px; padding:14px; box-shadow:0 1px 6px rgba(0,0,0,.06); }
+    label { display:block; margin:10px 0 6px; font-weight:600; }
+    select, textarea, input { width:100%; padding:10px; border:1px solid #ddd; border-radius:8px; }
+    button { margin-top:10px; padding:10px 12px; border:0; border-radius:8px; background:#2563eb; color:#fff; cursor:pointer; }
+    table { width:100%; border-collapse:collapse; }
+    th, td { text-align:left; padding:8px; border-bottom:1px solid #eee; }
+    .muted { color:#6b7280; }
+  </style>
+</head>
+<body>
+<header>
+  <a href="/tenant-dashboard">← Back</a>
+  <div>Report an Issue</div>
+</header>
+
+<main>
+  <section class="card">
+    <h2>Create Issue</h2>
+    <label>Property (optional)</label>
+    <select id="propSelect"></select>
+
+    <label>Category</label>
+    <select id="category">
+      <option value="ELECTRIC">Electric</option>
+      <option value="PLUMBING">Plumbing</option>
+      <option value="GAS">Gas</option>
+      <option value="OTHER">Other</option>
+    </select>
+
+    <label>Severity</label>
+    <select id="severity">
+      <option value="LOW">Low</option>
+      <option value="MEDIUM">Medium</option>
+      <option value="HIGH">High</option>
+    </select>
+
+    <label>Description</label>
+    <textarea id="description" rows="4" placeholder="Describe the problem..."></textarea>
+
+    <button id="submitBtn">Submit Issue</button>
+    <div class="muted" id="msg" style="margin-top:6px;"></div>
+  </section>
+
+  <section class="card">
+    <h2>My Issues</h2>
+    <table id="issuesTable">
+      <thead>
+        <tr><th>Created</th><th>Property</th><th>Category</th><th>Severity</th><th>Status</th><th>Description</th></tr>
+      </thead>
+      <tbody></tbody>
+    </table>
+  </section>
+</main>
+
+<script src="/js/tenant-issues.js" defer></script>
+</body>
+</html>

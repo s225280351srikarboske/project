@@ -10,6 +10,9 @@ import authRoutes from './src/routes/auth.js';
 import customerRoutes from './src/routes/customers.js';
 import propertyRoutes from './src/routes/propertyRoutes.js';
 import addTenantRoutes from './src/routes/addTenantRoutes.js';
+import chatRoutes from './src/routes/chatRoutes.js';
+import issueRoutes from './src/routes/issueRoutes.js';
+
 
 dotenv.config();
 
@@ -34,6 +37,9 @@ app.use('/api/auth', authRoutes);
 app.use('/api/customers', customerRoutes);
 app.use('/api/properties', propertyRoutes);
 app.use('/api/addtenants', addTenantRoutes);
+app.use('/api/chat', chatRoutes);
+app.use('/api/issues', issueRoutes);
+
 
 // default pages (static HTML)
 app.get('/', (req, res) => res.sendFile(path.join(__dirname, 'public', 'index.html')));
@@ -45,7 +51,15 @@ app.get('/addtenant', (req, res) => res.sendFile(path.join(__dirname, 'public', 
 app.get('/tenant-dashboard', (_req, res) =>
   res.sendFile(path.join(__dirname, 'public', 'tenantdashboard.html'))
 );
+// property details + chat (dynamic page uses same HTML file)
+app.get('/tenant/property/:id', (req, res) =>
+  res.sendFile(path.join(__dirname, 'public', 'tenant-property.html'))
+);
 
+// tenant issues page
+app.get('/tenant-issues', (req, res) =>
+  res.sendFile(path.join(__dirname, 'public', 'tenant-issues.html'))
+);
 
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => console.log(`Server running at http://localhost:${PORT}`));
