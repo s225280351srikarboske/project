@@ -1,24 +1,18 @@
 // /public/js/tenants.js
-// Tenants CRUD + populate property <select> from /api/properties
 
 document.addEventListener('DOMContentLoaded', function () {
   loadTenants();
 
-  document.getElementById('addNewTenantBtn')?.addEventListener('click', async () => {
-    openTenantModal();
-    await loadPropertiesIntoSelect(); // populate on open
-  });
+  document.getElementById('addNewTenantBtn').addEventListener('click', openTenantModal);
+  document.getElementById('tenantForm').addEventListener('submit', handleTenantSubmit);
 
-  document.getElementById('tenantForm')?.addEventListener('submit', handleTenantSubmit);
-
-  // close buttons & backdrop
-  document.querySelectorAll('.close-btn').forEach((btn) => btn.addEventListener('click', closeTenantModal));
-  document.getElementById('tenantModal')?.addEventListener('click', function (e) {
-    if (e.target === this) closeTenantModal();
+  document.querySelectorAll('.close-btn').forEach((btn) => btn.addEventListener('click', closeModals));
+  document.getElementById('tenantModal').addEventListener('click', function (e) {
+    if (e.target === this) closeModals();
   });
 });
 
-/** ---------------- API helper (same style as properties.js) ---------------- */
+/** ---------------- API helper ---------------- */
 async function api(url, method = 'GET', data) {
   const opts = { method, headers: { 'Content-Type': 'application/json' } };
   if (data) opts.body = JSON.stringify(data);
@@ -31,10 +25,10 @@ async function api(url, method = 'GET', data) {
   return res.json();
 }
 
-/** ---------------- Load & render tenants ---------------- */
+/** ---------------- Load & render ---------------- */
 async function loadTenants() {
   try {
-    const tenants = await api('/api/addtenants'); // expects [] or list
+    const tenants = await api('/api/addtenants'); // match backend route
     renderTenants(tenants || []);
   } catch (error) {
     console.error('Error loading tenants:', error);
@@ -44,65 +38,42 @@ async function loadTenants() {
 
 function renderTenants(tenants) {
   const tbody = document.getElementById('tenantsTableBody');
-  if (!tbody) return;
 
   if (!tenants.length) {
-    tbody.innerHTML = '<tr><td colspan="7" style="text-align:center;">No tenants found</td></tr>';
+    tbody.innerHTML = '<tr><td colspan="6" style="text-align: center;">No tenants found</td></tr>';
     return;
   }
 
   tbody.innerHTML = tenants
     .map((t) => {
-      const prop = t.property || t.assignedProperty || null; // populated object or null
-      const propLabel =
-        (prop && (prop.name || prop.title || prop.address || prop.line1)) ||
-        t.propertyName ||
-        t.propertyId ||
-        t.property ||
-        '—';
-
-      const rent = Number(t.rent || 0);
-      const status = (t.status || '').toString().toLowerCase(); // 'paid' | 'overdue'
-
       return `
         <tr>
-          <td>${escapeHtml(t.name || t.fullName || '')}</td>
-          <td>${escapeHtml(t.email || '')}</td>
-          <td>${escapeHtml(t.phone || t.phoneNumber || '')}</td>
-          <td>${escapeHtml(String(propLabel))}</td>
-          <td>$${rent.toLocaleString()}</td>
-          <td><span class="status-badge ${status || 'paid'}">${status || 'paid'}</span></td>
-          <td class="action-buttons">
-            <button class="edit-btn" data-id="${t._id || t.id}"><i class="fas fa-edit"></i> Edit</button>
-            <button class="delete-btn" data-id="${t._id || t.id}"><i class="fas fa-trash"></i> Delete</button>
+          <td>${t.name || ''}</td>
+          <td>${t.email || ''}</td>
+          <td>${t.phone || ''}</td>
+          <td>${t.unit || ''}</td>
+          <td>
+            <button class="edit-btn" data-id="${t._id}">Edit</button>
+            <button class="delete-btn" data-id="${t._id}">Delete</button>
           </td>
         </tr>
       `;
     })
     .join('');
 
-  // hook up edit/delete
   document.querySelectorAll('.edit-btn').forEach((btn) => {
     btn.addEventListener('click', function () {
-      const id = this.getAttribute('data-id');
-      editTenant(id);
+      const tenantId = this.getAttribute('data-id');
+      editTenant(tenantId);
     });
   });
+
   document.querySelectorAll('.delete-btn').forEach((btn) => {
     btn.addEventListener('click', function () {
-      const id = this.getAttribute('data-id');
-      deleteTenant(id);
+      const tenantId = this.getAttribute('data-id');
+      deleteTenant(tenantId);
     });
   });
-}
-
-function escapeHtml(s) {
-  return String(s)
-    .replaceAll('&', '&amp;')
-    .replaceAll('<', '&lt;')
-    .replaceAll('>', '&gt;')
-    .replaceAll('"', '&quot;')
-    .replaceAll("'", '&#39;');
 }
 
 /** ---------------- Modal open/close ---------------- */
@@ -110,44 +81,11 @@ function openTenantModal() {
   document.getElementById('tenantModalTitle').textContent = 'Add New Tenant';
   document.getElementById('tenantForm').reset();
   document.getElementById('tenantId').value = '';
-  document.getElementById('tenantModal').classList.add('active'); // matches your CSS pattern
+  document.getElementById('tenantModal').classList.add('active');
 }
 
-function closeTenantModal() {
+function closeModals() {
   document.getElementById('tenantModal').classList.remove('active');
-}
-
-/** ---------------- Populate property <select> from DB ---------------- */
-async function loadPropertiesIntoSelect(selectedId = '') {
-  const select = document.getElementById('tenantProperty');
-  if (!select) return;
-
-  // show loading state
-  select.innerHTML = '<option value="">Loading properties…</option>';
-
-  try {
-    const data = await api('/api/properties', 'GET');
-    const list = Array.isArray(data) ? data : (data.properties || data.data || []);
-
-    if (!list.length) {
-      select.innerHTML = '<option value="">No properties found</option>';
-      return;
-    }
-
-    // Build options
-    const opts = ['<option value="">Select a property</option>'];
-    for (const p of list) {
-      const id = p._id || p.id;
-      const label = p.title || p.name || p.address?.line1 || id;
-      const sel = String(selectedId) === String(id) ? ' selected' : '';
-      opts.push(`<option value="${escapeHtml(String(id))}"${sel}>${escapeHtml(String(label))}</option>`);
-    }
-    select.innerHTML = opts.join('');
-  } catch (err) {
-    console.error('Failed to load properties:', err);
-    select.innerHTML = '<option value="">Failed to load properties</option>';
-    alert('Could not load properties: ' + err.message);
-  }
 }
 
 /** ---------------- Edit / Create ---------------- */
@@ -156,22 +94,11 @@ async function editTenant(tenantId) {
     const t = await api(`/api/addtenants/${tenantId}`);
 
     document.getElementById('tenantModalTitle').textContent = 'Edit Tenant';
-    document.getElementById('tenantId').value = t._id || t.id || '';
-    document.getElementById('tenantName').value = t.name || t.fullName || '';
+    document.getElementById('tenantId').value = t._id;
+    document.getElementById('tenantName').value = t.name || '';
     document.getElementById('tenantEmail').value = t.email || '';
-    document.getElementById('tenantPhone').value = t.phone || t.phoneNumber || '';
-    document.getElementById('tenantRent').value = t.rent ?? '';
-    document.getElementById('tenantStatus').value = (t.status || 'paid').toLowerCase();
-
-    // Determine propertyId from populated object or raw field
-    const propertyId =
-      (t.property && (t.property._id || t.property.id)) ||
-      t.propertyId ||
-      t.property ||
-      '';
-
-    // Populate select with all properties and select this one
-    await loadPropertiesIntoSelect(propertyId);
+    document.getElementById('tenantPhone').value = t.phone || '';
+    document.getElementById('tenantUnit').value = t.unit || '';
 
     document.getElementById('tenantModal').classList.add('active');
   } catch (error) {
@@ -187,25 +114,11 @@ async function handleTenantSubmit(e) {
   const name = document.getElementById('tenantName').value.trim();
   const email = document.getElementById('tenantEmail').value.trim();
   const phone = document.getElementById('tenantPhone').value.trim();
-  const rent = Number(document.getElementById('tenantRent').value || 0);
-  const status = document.getElementById('tenantStatus').value; // 'paid' | 'overdue'
-  const propertyId = document.getElementById('tenantProperty').value;
+  const unit = document.getElementById('tenantUnit').value.trim();
 
-  if (!name) return alert('Full name is required.');
-  if (!email) return alert('Email is required.');
-  if (!phone) return alert('Phone is required.');
-  if (!propertyId) return alert('Please select a property.');
-  if (!(rent >= 0)) return alert('Rent must be a number.');
+  if (!name) return alert('Name is required.');
 
-  // If your backend expects "property" instead of "propertyId", rename the key below
-  const payload = {
-    name,
-    email,
-    phone,
-    rent,
-    status,
-    propertyId,
-  };
+  const payload = { name, email, phone, unit };
 
   try {
     if (tenantId) {
@@ -213,7 +126,7 @@ async function handleTenantSubmit(e) {
     } else {
       await api('/api/addtenants', 'POST', payload);
     }
-    closeTenantModal();
+    closeModals();
     loadTenants();
   } catch (error) {
     console.error('Error saving tenant:', error);

@@ -1,5 +1,5 @@
 // src/controllers/addTenantController.js
-import AddTenant from '../models/addTenant.js';
+import AddTenant from '../models/AddTenant.js';
 import Property from '../models/Property.js';
 
 export async function listAddTenants(req, res) {

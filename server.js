@@ -9,7 +9,7 @@ import connectDB from './src/config/db.js';
 import authRoutes from './src/routes/auth.js';
 import customerRoutes from './src/routes/customers.js';
 import propertyRoutes from './src/routes/propertyRoutes.js';
-import addTenantRoutes from './src/routes/addTenantRoutes.js';
+import addtenantsRoutes from './src/routes/addTenantRoutes.js';
 
 dotenv.config();
 
@@ -33,7 +33,7 @@ await connectDB();
 app.use('/api/auth', authRoutes);
 app.use('/api/customers', customerRoutes);
 app.use('/api/properties', propertyRoutes);
-app.use('/api/tenants', addTenantRoutes);
+app.use('/api/addtenants', addtenantsRoutes);
 
 // default pages (static HTML)
 app.get('/', (req, res) => res.sendFile(path.join(__dirname, 'public', 'index.html')));
