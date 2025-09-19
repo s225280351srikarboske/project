@@ -62,7 +62,7 @@ export async function updateAddTenant(req, res) {
   }
 }
 
-export async function deleteAddTenant(req, res) {
+export async function deleteAddTenant (req, res) {
   try {
     const tenant = await AddTenant.findByIdAndDelete(req.params.id);
     if (!tenant) return res.status(404).json({ message: 'Tenant not found' });
