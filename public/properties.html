@@ -117,10 +117,21 @@
                         <option value="pending">Pending</option>
                     </select>
                 </div>
-                <div class="form-group">
-                    <label for="propertyImage">Property Image URL</label>
-                    <input type="text" id="propertyImage" class="form-control" placeholder="https://...">
-                </div>
+<!-- NEW: file upload + small preview area -->
+<div class="form-group">
+  <label for="propertyImages">Property Images</label>
+  <input type="file" id="propertyImages" class="form-control" accept="image/*" multiple>
+  <small style="display:block;margin-top:6px;opacity:.8">
+    You can select multiple images. Max 10 files, up to 5MB each.
+  </small>
+</div>
+
+<!-- Optional: current images preview when editing -->
+<div class="form-group" id="currentImagesGroup" style="display:none">
+  <label>Current Images</label>
+  <div id="currentImagesPreview" style="display:flex;gap:8px;flex-wrap:wrap"></div>
+</div>
+
                 <div class="form-actions">
                     <button type="button" class="btn btn-secondary close-btn">Cancel</button>
                     <button type="submit" class="btn btn-primary">Save Property</button>

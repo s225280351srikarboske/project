@@ -1,6 +1,7 @@
 // src/routes/propertyRoutes.js
 import { Router } from 'express';
-import { list, getOne, create, update, destroy } from '../controllers/propertyController.js';
+import { list, getOne, create, update, destroy, addImages } from '../controllers/propertyController.js';
+import { upload } from '../middleware/upload.js';
 
 // If you have real middlewares, import them:
 // import { requireAuth, requireAdmin } from '../utils/auth.js';
@@ -17,5 +18,9 @@ router.get('/:id', requireAuth, getOne);
 router.post('/', requireAuth, requireAdmin, create);
 router.put('/:id', requireAuth, requireAdmin, update);
 router.delete('/:id', requireAuth, requireAdmin, destroy);
+
+// NEW: upload images to a property
+// field name must be "images" in FormData
+router.post('/:id/images', requireAuth, requireAdmin, upload.array('images', 10), addImages);
 
 export default router;
