@@ -26,7 +26,7 @@
       const created = it.createdAt ? new Date(it.createdAt).toLocaleString() : '';
       tr.innerHTML = `
         <td>${escapeHtml(created)}</td>
-        <td>${escapeHtml(it.property?.title || it.property?.address?.line1 || it.property || '')}</td>
+      <td>${escapeHtml(it.property?.title || it.property?.address?.line1 || it.property || '')}</td>
         <td>${escapeHtml(it.category)}</td>
         <td>${escapeHtml(it.severity)}</td>
         <td>${escapeHtml(it.status)}</td>
