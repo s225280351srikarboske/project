@@ -70,14 +70,22 @@
   <!-- Main Content -->
   <div class="main-content">
     <!-- Header -->
-    <header class="d-flex justify-content-between align-items-center mb-3">
-      <div class="header-left">
-        <p class="mb-0 text-muted">Welcome back! Here's your property overview.</p>
-      </div>
-      <div class="header-right">
-        <a href="profile.html" class="btn btn-outline-primary rounded-circle fw-bold">PK</a>
-      </div>
-    </header>
+<header class="d-flex justify-content-between align-items-center mb-4 p-3 bg-light rounded shadow-sm">
+  <div class="header-left">
+    <h4 class="fw-bold mb-1 text-primary">
+      Welcome back, <span id="userName">User</span>!
+    </h4>
+    <p class="text-muted mb-0">Here’s your property overview</p>
+  </div>
+  <div class="header-right">
+    <button class="btn btn-outline-primary rounded-circle fw-bold"
+            data-bs-toggle="modal"
+            data-bs-target="#profileModal">
+      PK
+    </button>
+  </div>
+</header>
+
 
     <!-- Alerts -->
     <div id="dashboard-alert" class="alert d-none" role="alert"></div>

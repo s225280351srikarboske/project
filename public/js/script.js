@@ -138,7 +138,7 @@ document.getElementById("signupForm").addEventListener("submit", async (e) => {
   const adminId = formData.get("adminId")
 
   if (role === "Admin") {
-    if (!adminId || adminId.trim() !== "2694") {
+    if (!adminId || adminId.trim() !== "8520") {
       showMessage("signup-message", "Invalid admin ID. Please contact administrator for correct ID.", true)
       setLoading("signup-btn", false, "Creating account...", "Create Account")
       return
