@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <title>Admin • Issues</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet"/>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"/>
+  <link rel="stylesheet" href="/css/admin.css"/>
+
+  <style>
+    .sidebar { width:260px; min-height:100vh; position:fixed; left:0; top:0; background:#0b2239; color:#fff; }
+    .sidebar .nav-item { display:flex; align-items:center; padding:.75rem 1rem; color:#dbe7ff; text-decoration:none; border-radius:.5rem; }
+    .sidebar .nav-item.active, .sidebar .nav-item:hover { background:#102c4a; color:#fff; }
+    .sidebar .logo { display:flex; align-items:center; gap:.5rem; font-weight:700; font-size:1.25rem; }
+    .sidebar .subtitle { font-size:.85rem; color:#9bb3d3; margin:.25rem 0 1rem 0; }
+    .main-content { margin-left:260px; padding:1.25rem; background:#f6f8fb; min-height:100vh; }
+    .sticky-header { position:sticky; top:0; z-index:10; background:#fff; }
+  </style>
+</head>
+<body>
+  <!-- Sidebar (same as your admin.html) -->
+  <div class="sidebar d-flex flex-column p-3">
+    <div class="sidebar-header mb-3">
+      <div class="logo"><i class="fas fa-building"></i><span>Property</span></div>
+      <div class="subtitle">Management System</div>
+    </div>
+    <nav class="sidebar-nav">
+      <div class="nav-section">
+        <div class="nav-label text-uppercase small mb-2">Management</div>
+        <a href="admin.html" class="nav-item">
+          <i class="fas fa-chart-pie me-2"></i><span>Dashboard</span>
+        </a>
+        <a href="/properties.html" class="nav-item">
+          <i class="fas fa-home me-2"></i><span>Properties</span>
+        </a>
+        <a href="./addtenant.html" class="nav-item">
+          <i class="fas fa-users me-2"></i><span>Tenants</span>
+        </a>
+        <a href="/chat.html" class="nav-item">
+          <i class="fas fa-envelope me-2"></i><span>Messages</span>
+        </a>
+        <a href="/admin-issues.html" class="nav-item active">
+          <i class="fas fa-tools me-2"></i><span>Issues</span>
+        </a>
+        <div class="sign-out mt-3">
+          <a href="index.html" class="nav-item">
+            <i class="fas fa-sign-out-alt me-2"></i><span>Sign Out</span>
+          </a>
+        </div>
+      </div>
+    </nav>
+  </div>
+
+  <!-- Main -->
+  <div class="main-content">
+    <header class="d-flex justify-content-between align-items-center mb-4 p-3 bg-light rounded shadow-sm">
+      <div class="header-left">
+        <h4 class="fw-bold mb-1 text-primary">Issues (Admin)</h4>
+        <p class="text-muted mb-0">View and update issue status</p>
+      </div>
+      <div class="header-right">
+        <button class="btn btn-outline-primary rounded-circle fw-bold" data-bs-toggle="modal" data-bs-target="#profileModal">PK</button>
+      </div>
+    </header>
+
+    <div id="issues-alert" class="alert d-none" role="alert"></div>
+
+    <div class="card border-0 shadow-sm">
+      <div class="table-responsive">
+        <table class="table align-middle mb-0">
+          <thead class="sticky-header">
+            <tr>
+              <th>Created</th>
+              <th>Property</th>
+              <th>Category</th>
+              <th>Severity</th>
+              <th>Description</th>
+              <th style="width:190px;">Status</th>
+            </tr>
+          </thead>
+          <tbody id="adminIssuesTbody">
+            <tr><td colspan="6" class="text-muted">Loading…</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+
+  <script src="/js/admin-issues.js" type="module"></script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

@@ -22,9 +22,3 @@ export function requireRole(...roles) {
     next();
   };
 }
-
-// Example auth check
-const token = localStorage.getItem('token');
-if (!token) {
-  window.location.href = 'index.html'; // not logged in
-}

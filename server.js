@@ -38,8 +38,7 @@ app.use('/api/customers', customerRoutes);
 app.use('/api/properties', propertyRoutes);
 app.use('/api/addtenants', addTenantRoutes);
 app.use('/api/chat', chatRoutes);
-app.use('/api/issues', issueRoutes);
-
+app.use('/api/issues', issueRoutes); 
 
 // default pages (static HTML)
 app.get('/', (req, res) => res.sendFile(path.join(__dirname, 'public', 'index.html')));
