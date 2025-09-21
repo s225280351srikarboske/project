@@ -1,21 +1,28 @@
-// /js/signout.js
-
 document.addEventListener('DOMContentLoaded', () => {
-  const signOutLink = document.querySelector('.sign-out a');
+  // Adjust this selector if your sign-out link/button has a different structure
+  const signOutLink = document.querySelector('.sign-out a, a#signout, button#signout');
 
-  if (signOutLink) {
-    signOutLink.addEventListener('click', (e) => {
-      e.preventDefault(); // prevent normal navigation
+  if (!signOutLink) return;
 
-      // 1. Clear tokens or session data
+  signOutLink.addEventListener('click', async (e) => {
+    e.preventDefault();
+
+    try {
+      // 1) Clear client-side auth state (JWT in storage, any user info caches)
       localStorage.removeItem('token');
       sessionStorage.removeItem('token');
+      localStorage.removeItem('user');
+      sessionStorage.removeItem('user');
 
-      // 2. Optionally notify server (only if you have a backend logout route)
-      // fetch('/api/auth/logout', { method: 'POST', credentials: 'include' }).catch(() => {});
+      // 2) (Optional) Tell server to clear cookie session if you use cookie auth
+      // If you don't have this endpoint, it's safe to leave commented out.
+      await fetch('/api/auth/logout', { method: 'POST', credentials: 'include' });
 
-      // 3. Redirect back to login
-      window.location.href = 'index.html';
-    });
-  }
+      // 3) Replace current history entry so Back won't return to dashboard
+      window.location.replace('index.html');
+    } catch (err) {
+      // Even if the request fails, still redirect after clearing local state
+      window.location.replace('index.html');
+    }
+  });
 });
